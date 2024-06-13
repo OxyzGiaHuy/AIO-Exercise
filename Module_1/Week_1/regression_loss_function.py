@@ -1,15 +1,14 @@
 import random
 import math
-import numpy as np
 
 
 def cal_mae(y_i, y_i_hat, num_samples):
-    differences = abs(y_i - y_i_hat)
+    differences = [abs(pred - target) for pred, target in zip(y_i, y_i_hat)]
     return sum(differences)/num_samples
 
 
 def cal_mse(y_i, y_i_hat, num_samples):
-    differences = (y_i - y_i_hat)**2
+    differences = [(pred - target)**2 for pred, target in zip(y_i, y_i_hat)]
     return sum(differences)/num_samples
 
 
@@ -23,15 +22,9 @@ def exercise3():
         return "number of samples must be a number"
     num_samples = int(num_samples)
 
-    y_i = np.array([])
-    y_i_hat = np.array([])
     for i in range(0, num_samples):
-        y_i = np.append(y_i, random.uniform(0, 10))
-        y_i_hat = np.append(y_i_hat, random.uniform(0, 10))
-    # print(y_i)
-    # print(y_i_hat)
-    # print(y_i - y_i_hat)
-    # print(abs(y_i - y_i_hat))
+        y_i = y_i.append(y_i, random.uniform(0, 10))
+        y_i_hat = y_i_hat.append(y_i_hat, random.uniform(0, 10))
 
     loss_name = input("Enter loss name: ")
     func_name = {
@@ -42,8 +35,7 @@ def exercise3():
 
     for i in range(0, num_samples):
         loss_func = func_name.get(loss_name.upper())
-        print(
-            f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(np.array([y_i[i]]) , np.array([y_i_hat[i]]), 1)}")
+        print(f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(y_i[i], y_i_hat[i], 1)}")
     print(f"final {loss_name.upper()}: {loss_func(y_i, y_i_hat, num_samples)}")
 
 
