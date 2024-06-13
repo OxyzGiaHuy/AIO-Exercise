@@ -1,50 +1,49 @@
 import random
 import math
-import numpy as np
 
-def cal_MAE(y_i, y_i_hat, num_samples): 
-    differences = abs(y_i - y_i_hat)
+
+def cal_mae(y_i, y_i_hat, num_samples):
+    differences = [abs(pred - target) for pred, target in zip(y_i, y_i_hat)]
     return sum(differences)/num_samples
 
-def cal_MSE(y_i, y_i_hat, num_samples):
-    differences = (y_i - y_i_hat)**2
+
+def cal_mse(y_i, y_i_hat, num_samples):
+    differences = [(pred - target)**2 for pred, target in zip(y_i, y_i_hat)]
     return sum(differences)/num_samples
 
-def cal_RMSE(y_i, y_i_hat, num_samples):
-    return math.sqrt(cal_MSE(y_i, y_i_hat, num_samples))
+
+def cal_rmse(y_i, y_i_hat, num_samples):
+    return math.sqrt(cal_mse(y_i, y_i_hat, num_samples))
+
 
 def exercise3():
     num_samples = input("Enter number of samples (integer number): ")
     if not num_samples.isnumeric():
         return "number of samples must be a number"
     num_samples = int(num_samples)
-    
-    y_i = np.array([])
-    y_i_hat = np.array([])
+
     for i in range(0, num_samples):
-        y_i = np.append(y_i, random.uniform(0,10))
-        y_i_hat = np.append(y_i_hat, random.uniform(0,10))
-    # print(y_i)
-    # print(y_i_hat)
-    # print(y_i - y_i_hat)
-    # print(abs(y_i - y_i_hat))
+        y_i = y_i.append(y_i, random.uniform(0, 10))
+        y_i_hat = y_i_hat.append(y_i_hat, random.uniform(0, 10))
 
     loss_name = input("Enter loss name: ")
     func_name = {
-        "MSE": cal_MSE,
-        "MAE": cal_MAE,
-        "RMSE": cal_RMSE
+        "MSE": cal_mse,
+        "MAE": cal_mae,
+        "RMSE": cal_rmse
     }
 
     for i in range(0, num_samples):
         loss_func = func_name.get(loss_name.upper())
-        print(f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(np.array([y_i[i]]) , np.array([y_i_hat[i]]), 1)}")
+        print(
+            f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(y_i[i], y_i_hat[i], 1)}")
     print(f"final {loss_name.upper()}: {loss_func(y_i, y_i_hat, num_samples)}")
 
 
 # Trac nghiem cau 7
 def calc_ae(y, y_hat):
     return abs(y - y_hat)
+
 
 y = 1
 y_hat = 6
@@ -56,8 +55,9 @@ print(calc_ae(y, y_hat))
 
 
 # Trac nghiem cau 8
-def calc_se (y, y_hat):
+def calc_se(y, y_hat):
     return abs(y - y_hat)**2
+
 
 y = 4
 y_hat = 2
