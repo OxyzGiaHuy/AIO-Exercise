@@ -35,8 +35,7 @@ def exercise3():
 
     for i in range(0, num_samples):
         loss_func = func_name.get(loss_name.upper())
-        print(
-            f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(y_i[i], y_i_hat[i], 1)}")
+        print(f"loss name: {loss_name}, sample: {i}, pred: {y_i_hat[i]}, target: {y_i[i]}, loss: {loss_func(y_i[i], y_i_hat[i], 1)}")
     print(f"final {loss_name.upper()}: {loss_func(y_i, y_i_hat, num_samples)}")
 
 
