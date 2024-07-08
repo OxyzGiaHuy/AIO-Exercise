@@ -43,9 +43,9 @@ print("\nCau 21:")
 sales = df['Sales']
 mean_val = sales.mean()
 A1 = abs(sales - mean_val).idxmin()
-scores = pd.Series(["" for _ in range(len(sales))])
-scores[sales > A1] = 'Good'
-scores[sales == A1] = 'Average'
-scores[sales < A1] = 'Bad'
-scores = list(scores)
-print(scores[7:10])
+scores1 = pd.Series(["" for _ in range(len(sales))])
+scores1[sales > sales[A1]] = 'Good'
+scores1[sales == sales[A1]] = 'Average'
+scores1[sales < sales[A1]] = 'Bad'
+scores1 = list(scores1)
+print(scores1[7:10])
