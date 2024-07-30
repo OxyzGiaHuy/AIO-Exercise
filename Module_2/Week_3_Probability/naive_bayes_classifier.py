@@ -18,7 +18,6 @@ def create_train_data():
 def compute_prior_probablity(train_data):
     y_unique = ['no', 'yes']
     prior_probability = np.zeros(len(y_unique))
-    target = train_data[:, 4]
     prior_probability[0] = np.count_nonzero(
         train_data[:, 4] == "no")/len(train_data)
     prior_probability[1] = np.count_nonzero(
@@ -47,13 +46,12 @@ def compute_conditional_probability(train_data):
 
 
 def get_index_from_value(feature_name, list_features):
-    return np.where(list_features == feature_name)[0][0]
+    return np.nonzero(list_features == feature_name)[0][0]
 
 
 # Train Naive Bayes Model
 def train_naive_bayes(train_data):
     # Step 1: Calculate Prior Probability
-    y_unique = ['no', 'yes']
     prior_probability = compute_prior_probablity(train_data)
 
     # Step 2: Calculate Conditional Probability
@@ -64,15 +62,15 @@ def train_naive_bayes(train_data):
 
 
 # Prediction
-def prediction_play_tennis(X, list_x_name, prior_probability, conditional_probability):
-    x1 = get_index_from_value(X[0], list_x_name[0])
-    x2 = get_index_from_value(X[1], list_x_name[1])
-    x3 = get_index_from_value(X[2], list_x_name[2])
-    x4 = get_index_from_value(X[3], list_x_name[3])
+def prediction_play_tennis(x, list_x_name, prior_probability, conditional_probability):
+    x1 = get_index_from_value(x[0], list_x_name[0])
+    x2 = get_index_from_value(x[1], list_x_name[1])
+    x3 = get_index_from_value(x[2], list_x_name[2])
+    x4 = get_index_from_value(x[3], list_x_name[3])
     p_0 = prior_probability[0] * conditional_probability[0][x1, 0] * conditional_probability[1][x2, 0] * \
-           conditional_probability[2][x3, 0] * conditional_probability[3][x4, 0]
+        conditional_probability[2][x3, 0] * conditional_probability[3][x4, 0]
     p_1 = prior_probability[1] * conditional_probability[0][x1, 1] * conditional_probability[1][x2, 1] * \
-            conditional_probability[2][x3, 1] * conditional_probability[3][x4, 1]
+        conditional_probability[2][x3, 1] * conditional_probability[3][x4, 1]
     print(p_0, p_1)
     if p_0 > p_1:
         y_pred = 0
@@ -132,8 +130,10 @@ print("P('Outlook' = 'Sunny' | Play Tennis = 'No') = ",
 # 4.6
 X = ['Sunny', 'Cool', 'High', 'Strong']
 data = create_train_data()
-prior_probability, conditional_probability, list_x_name = train_naive_bayes(data)
-pred = prediction_play_tennis(X, list_x_name, prior_probability, conditional_probability)
+prior_probability, conditional_probability, list_x_name = train_naive_bayes(
+    data)
+pred = prediction_play_tennis(
+    X, list_x_name, prior_probability, conditional_probability)
 
 if pred:
     print("Ad should go!")
