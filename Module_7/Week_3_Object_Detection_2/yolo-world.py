@@ -2,7 +2,7 @@ from ultralytics import YOLOWorld
 from ultralytics.engine.results import Boxes
 from utils import save_detection_results
 
-model = YOLOWorld("./yolo8s-world.pt")
+model = YOLOWorld("yolov8s-world.pt")
 
 model.set_classes(
     ["person", "phone", "mask"] 
